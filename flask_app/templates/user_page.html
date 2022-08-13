@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h2>Welcome {{user.first_name}}</h2>
+    <form action="/delete_session">
+        <input type="submit" value="Logout">
+    </form>
+    <div class="messages">
+        <h2>{{messages | length}} Message(s) for you</h2>
+        <table>
+            {% for message in messages %}
+            <tr>
+                <td>{{message.sender_id}}</td>
+                <td>said:</td>
+                <td>{{message.content}}</td>
+                <td><a href="/delete/{{message.id}}">DELETE</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div class="send">
+        <h2>You have send {{sent_messages | length}} Message(s) so far</h2>
+        <table>
+            {% for receiver in users %}
+            <tr>
+                <td>{{receiver.first_name}}</td>
+                <td><form action="/send_message" method="POST">
+                    <input type="hidden" value="{{receiver.id}}" name="receiver_id">
+                    <textarea name="content" cols="30" rows="10"></textarea>
+                    <button>Send</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </body>
+    
+    </html>
